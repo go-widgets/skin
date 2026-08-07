@@ -1,0 +1,479 @@
+{
+  "collections": {
+    "check": {
+      "min": {
+        "h": 20,
+        "w": 120
+      },
+      "parts": [
+        {
+          "name": "box",
+          "rel1": {
+            "offset": [
+              0,
+              -6
+            ],
+            "relative": [
+              0,
+              0.5
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              12,
+              6
+            ],
+            "relative": [
+              0,
+              0.5
+            ],
+            "to": ""
+          },
+          "states": {
+            "checked": {
+              "border": "@border",
+              "color": "@accent"
+            },
+            "default": {
+              "border": "@border",
+              "color": "@surface"
+            },
+            "disabled": {
+              "border": "@muted_ink",
+              "color": "@muted_face"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck0a",
+          "rel1": {
+            "offset": [
+              3,
+              6
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              4,
+              7
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck1a",
+          "rel1": {
+            "offset": [
+              4,
+              7
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              5,
+              8
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck2a",
+          "rel1": {
+            "offset": [
+              5,
+              8
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              6,
+              9
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck3a",
+          "rel1": {
+            "offset": [
+              6,
+              9
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              7,
+              10
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck4a",
+          "rel1": {
+            "offset": [
+              6,
+              9
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              7,
+              10
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck5a",
+          "rel1": {
+            "offset": [
+              7,
+              8
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              8,
+              9
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck6a",
+          "rel1": {
+            "offset": [
+              8,
+              7
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              9,
+              8
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck7a",
+          "rel1": {
+            "offset": [
+              9,
+              6
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              10,
+              7
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck8a",
+          "rel1": {
+            "offset": [
+              10,
+              5
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              11,
+              6
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "ck9a",
+          "rel1": {
+            "offset": [
+              11,
+              4
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "rel2": {
+            "offset": [
+              12,
+              5
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "box"
+          },
+          "states": {
+            "checked": {
+              "color": "@background",
+              "visible": true
+            },
+            "default": {
+              "visible": false
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "align": [
+            0,
+            0.5
+          ],
+          "name": "label",
+          "rel1": {
+            "offset": [
+              16,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "ink": "@on_background"
+            },
+            "disabled": {
+              "ink": "@muted_ink"
+            }
+          },
+          "text_from": "$.label",
+          "type": "text"
+        }
+      ],
+      "programs": [
+        {
+          "in": 0,
+          "on": "toggle,on",
+          "target": [
+            "box",
+            "ck0a",
+            "ck1a",
+            "ck2a",
+            "ck3a",
+            "ck4a",
+            "ck5a",
+            "ck6a",
+            "ck7a",
+            "ck8a",
+            "ck9a"
+          ],
+          "to": "checked"
+        },
+        {
+          "in": 0,
+          "on": "toggle,off",
+          "target": [
+            "box",
+            "ck0a",
+            "ck1a",
+            "ck2a",
+            "ck3a",
+            "ck4a",
+            "ck5a",
+            "ck6a",
+            "ck7a",
+            "ck8a",
+            "ck9a"
+          ],
+          "to": "default"
+        }
+      ]
+    }
+  }
+}
