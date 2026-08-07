@@ -1,0 +1,145 @@
+{
+  "collections": {
+    "badge": {
+      "min": {
+        "h": 20,
+        "w": 60
+      },
+      "parts": [
+        {
+          "name": "bg",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "border": [
+                0,
+                0,
+                0
+              ],
+              "color": "#3584E4",
+              "radius": 4
+            },
+            "warn": {
+              "color": "@extra:warn_color",
+              "radius": 4
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "image": "star",
+          "name": "icon",
+          "rel1": {
+            "offset": [
+              2,
+              2
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              18,
+              -2
+            ],
+            "relative": [
+              0,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "ink": [
+                255,
+                255,
+                255,
+                255
+              ]
+            }
+          },
+          "type": "image"
+        },
+        {
+          "align": [
+            0,
+            0.5
+          ],
+          "name": "label",
+          "rel1": {
+            "offset": [
+              20,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "ink": "#FFFFFF"
+            }
+          },
+          "text": "NEW",
+          "type": "text"
+        }
+      ],
+      "programs": [
+        {
+          "emit": "warned",
+          "in": 0.2,
+          "on": "warn",
+          "target": [
+            "bg"
+          ],
+          "to": "warn"
+        },
+        {
+          "in": 0,
+          "on": "reset",
+          "target": [
+            "bg"
+          ],
+          "to": "default"
+        }
+      ]
+    }
+  }
+}

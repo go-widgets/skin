@@ -1,0 +1,306 @@
+{
+  "collections": {
+    "card": {
+      "min": {
+        "h": 100,
+        "w": 160
+      },
+      "parts": [
+        {
+          "name": "surface",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "color": "@surface"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "header",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              19
+            ],
+            "relative": [
+              1,
+              0
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "color": "@surface_alt"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "align": [
+            0,
+            0.5
+          ],
+          "name": "title",
+          "rel1": {
+            "offset": [
+              8,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "header"
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": "header"
+          },
+          "states": {
+            "default": {
+              "ink": "@on_surface"
+            }
+          },
+          "text_from": "$.title",
+          "type": "text"
+        },
+        {
+          "name": "hdiv",
+          "rel1": {
+            "offset": [
+              0,
+              19
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              20
+            ],
+            "relative": [
+              1,
+              0
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "color": "@border"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "footer",
+          "rel1": {
+            "offset": [
+              0,
+              -19
+            ],
+            "relative": [
+              0,
+              1
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "color": "@surface_alt"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "align": [
+            0,
+            0.5
+          ],
+          "name": "ftitle",
+          "rel1": {
+            "offset": [
+              8,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": "footer"
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": "footer"
+          },
+          "states": {
+            "default": {
+              "ink": "@on_surface"
+            }
+          },
+          "text_from": "$.footer",
+          "type": "text"
+        },
+        {
+          "name": "fdiv",
+          "rel1": {
+            "offset": [
+              0,
+              -20
+            ],
+            "relative": [
+              0,
+              1
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              -19
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "color": "@border"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "align": [
+            0,
+            0
+          ],
+          "name": "body",
+          "rel1": {
+            "offset": [
+              8,
+              26
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "ink": "@on_surface"
+            }
+          },
+          "text_from": "$.body",
+          "type": "text"
+        },
+        {
+          "name": "outline",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "border": "@border"
+            }
+          },
+          "type": "rect"
+        }
+      ]
+    }
+  }
+}

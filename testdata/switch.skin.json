@@ -1,0 +1,144 @@
+{
+  "collections": {
+    "switch": {
+      "min": {
+        "h": 24,
+        "w": 44
+      },
+      "parts": [
+        {
+          "name": "track",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "border": "@border",
+              "color": "@surface_alt",
+              "radius": "pill"
+            },
+            "disabled": {
+              "border": "@muted_ink",
+              "color": "@muted_face",
+              "radius": "pill"
+            },
+            "on": {
+              "border": "@border",
+              "color": "@accent",
+              "radius": "pill"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "name": "knob",
+          "rel1": {
+            "offset": [
+              2,
+              2
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              22,
+              22
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "border": "@border",
+              "color": "@surface",
+              "radius": "pill"
+            },
+            "disabled": {
+              "border": "@muted_ink",
+              "color": "@muted_face",
+              "radius": "pill"
+            },
+            "on": {
+              "border": "@border",
+              "color": "@surface",
+              "radius": "pill",
+              "rel1": {
+                "offset": [
+                  22,
+                  2
+                ],
+                "relative": [
+                  0,
+                  0
+                ],
+                "to": ""
+              },
+              "rel2": {
+                "offset": [
+                  42,
+                  22
+                ],
+                "relative": [
+                  0,
+                  0
+                ],
+                "to": ""
+              }
+            }
+          },
+          "type": "rect"
+        }
+      ],
+      "programs": [
+        {
+          "ease": "ease_in_out_cubic",
+          "emit": "on",
+          "in": 0.18,
+          "on": "toggle,on",
+          "target": [
+            "track",
+            "knob"
+          ],
+          "to": "on"
+        },
+        {
+          "ease": "ease_in_out_cubic",
+          "emit": "off",
+          "in": 0.18,
+          "on": "toggle,off",
+          "target": [
+            "track",
+            "knob"
+          ],
+          "to": "default"
+        }
+      ]
+    }
+  }
+}

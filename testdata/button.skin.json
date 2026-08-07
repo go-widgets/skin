@@ -1,0 +1,151 @@
+{
+  "collections": {
+    "button": {
+      "min": {
+        "h": 28,
+        "w": 96
+      },
+      "parts": [
+        {
+          "name": "bg",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "border": "@border",
+              "color": "@surface",
+              "radius": 6
+            },
+            "disabled": {
+              "border": "@muted_ink",
+              "color": "@muted_face",
+              "radius": 6
+            },
+            "hover": {
+              "border": "@border",
+              "color": "@surface_alt",
+              "radius": 6
+            },
+            "pressed": {
+              "border": "@border",
+              "color": "@accent",
+              "radius": 6
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "align": [
+            0.5,
+            0.5
+          ],
+          "name": "label",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "ink": "@on_surface"
+            },
+            "disabled": {
+              "ink": "@muted_ink"
+            },
+            "hover": {
+              "ink": "@on_surface"
+            },
+            "pressed": {
+              "ink": "@background"
+            }
+          },
+          "text_from": "$.label",
+          "type": "text"
+        }
+      ],
+      "programs": [
+        {
+          "ease": "ease_out_cubic",
+          "in": 0.12,
+          "on": "mouse,in",
+          "target": [
+            "bg",
+            "label"
+          ],
+          "to": "hover"
+        },
+        {
+          "ease": "ease_out_cubic",
+          "in": 0.12,
+          "on": "mouse,out",
+          "target": [
+            "bg",
+            "label"
+          ],
+          "to": "default"
+        },
+        {
+          "ease": "ease_out_quad",
+          "in": 0.06,
+          "on": "mouse,down",
+          "target": [
+            "bg",
+            "label"
+          ],
+          "to": "pressed"
+        },
+        {
+          "ease": "ease_out_quad",
+          "in": 0.06,
+          "on": "mouse,up",
+          "target": [
+            "bg",
+            "label"
+          ],
+          "to": "hover"
+        },
+        {
+          "emit": "clicked",
+          "on": "mouse,click"
+        }
+      ]
+    }
+  }
+}

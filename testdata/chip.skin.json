@@ -1,0 +1,80 @@
+{
+  "collections": {
+    "chip": {
+      "min": {
+        "h": 18,
+        "w": 80
+      },
+      "parts": [
+        {
+          "name": "bg",
+          "rel1": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "border": "@border",
+              "color": "@surface_alt"
+            }
+          },
+          "type": "rect"
+        },
+        {
+          "align": [
+            0,
+            0.5
+          ],
+          "name": "label",
+          "rel1": {
+            "offset": [
+              8,
+              0
+            ],
+            "relative": [
+              0,
+              0
+            ],
+            "to": ""
+          },
+          "rel2": {
+            "offset": [
+              0,
+              0
+            ],
+            "relative": [
+              1,
+              1
+            ],
+            "to": ""
+          },
+          "states": {
+            "default": {
+              "ink": "@on_surface"
+            }
+          },
+          "text_from": "$.label",
+          "type": "text"
+        }
+      ]
+    }
+  }
+}
