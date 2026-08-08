@@ -117,11 +117,29 @@ added when it's wanted.
 - **`part`** — `name`, `type` (`rect`/`text`/`image`), default geometry
   (`rel1`/`rel2`/`align`), an optional `text_from` binding path (or static
   `text`) or `image` drawable name, and a map of `states`.
-- **`rel1`/`rel2`** — geometry endpoints. Each is a fraction (`relative`) of a
-  reference box plus a pixel `offset`. The reference is the object itself
-  (`to: ""`) or an **earlier** sibling part (`to: "<name>"`). `rel1` is the
-  top-left, `rel2` the far corner. A `state` may override the endpoints, so a
-  part can **move or resize between states** — that is how a switch knob slides.
+- **`rel1`/`rel2`** — geometry endpoints. Each is a **fractional** position
+  (`relative`, `[rx, ry]` in `0..1`) across a reference box, plus a pixel
+  `offset` **and** a font-relative `offset_em` (`[ex, ey]`, in em = glyph-height
+  units). The endpoint resolves to
+  `base.origin + relative*base.size + offset + round(offset_em*glyphHeight)`.
+  The reference is the object itself (`to: ""`) or an **earlier** sibling part
+  (`to: "<name>"`). `rel1` is the top-left, `rel2` the far corner. Pixel-only
+  authoring (no `offset_em`) reproduces the historical behaviour byte-for-byte;
+  `offset_em` lets a text-driven part scale with the font instead of assuming
+  the default 5×7 (a card's header height is `1em + 12px`, so it re-lays out
+  under any `SetFont`). A `state` may override the endpoints, so a part can
+  **move or resize between states**.
+- **`aspect` / `aspect_mode`** — an optional per-part width:height ratio held
+  within the rect `rel1`/`rel2` carve out (the Edje `aspect` idea). `aspect_mode`
+  is one of `none` (default), `both` (fit the largest rect of ratio `pref` that
+  *contains* inside — a square switch knob at any track size), `horizontal`
+  (height authoritative, width = `height*pref`), `vertical` (width authoritative,
+  height = `width/pref`) or `neither` (keep the rect's own ratio while it lies in
+  `[min, max]`, otherwise shrink to the nearest bound). `aspect` carries `pref`
+  (target ratio for `both`/`horizontal`/`vertical`) or `min`+`max` (range for
+  `neither`). The ratio-held rect seats inside its allotted box by the part's (or
+  state's) `align`, so `align [0,0.5]`/`[1,0.5]` pin a contained square to the
+  left/right edge — how the switch knob slides without any pixel geometry.
 - **`state`** — visual props: `color` (fill), `ink` (text/glyph), `border`,
   `border_width`, `radius` (a number or `"pill"`), `visible`, and optional
   per-state geometry (`rel1`/`rel2`/`align`). Colour values are `@tokens`

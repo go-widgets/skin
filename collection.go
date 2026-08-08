@@ -88,17 +88,62 @@ type Part struct {
 
 	rel1, rel2 relSpec    // part-level default geometry
 	align      [2]float64 // part-level default content alignment
+	aspect     aspectSpec // part-level ratio constraint (aspectNone = off)
 	states     map[string]*State
 }
 
-// relSpec is one geometry endpoint: a fraction of some reference box plus a
-// pixel offset. The reference is the object itself (to == "") or a sibling part
-// (to == that part's name). The endpoint is
-// base.X + relx*base.W + offx, base.Y + rely*base.H + offy.
+// relSpec is one geometry endpoint: a FRACTIONAL position across some reference
+// box (relx/rely, 0..1) plus a pixel offset (offx/offy) and a FONT-RELATIVE
+// offset (emx/emy, in em = glyph-height units, resolved against the active
+// font's [github.com/go-widgets/toolkit.GlyphHeight] at draw time). The
+// reference is the object itself (to == "") or a sibling part (to == that
+// part's name). The endpoint is
+//
+//	base.origin + rel_pos*base.size + offset_px + round(offset_em*glyphH)
+//
+// Pixel-only authoring is the zero case (emx==emy==0), which reproduces the
+// historical behaviour byte-for-byte; a text-driven part instead expresses its
+// insets in em so it tracks the font instead of assuming the default 5x7.
 type relSpec struct {
 	to         string
 	relx, rely float64
 	offx, offy int
+	emx, emy   float64
+}
+
+// aspectMode selects how (if at all) a part is held to a width:height ratio
+// within the rect its rel1/rel2 carve out — the Edje `aspect_mode` idea. The
+// zero value is aspectNone (unconstrained), so a part that names no aspect
+// keeps its raw rel1/rel2 rect exactly as before.
+type aspectMode int
+
+const (
+	// aspectNone applies no ratio constraint (the raw rel1/rel2 rect is used).
+	aspectNone aspectMode = iota
+	// aspectNeither keeps the rect's own ratio when it already lies within
+	// [min,max]; otherwise it shrinks the offending dimension until the ratio
+	// reaches the nearest bound (Edje NEITHER: respect the range, force nothing).
+	aspectNeither
+	// aspectHorizontal treats HEIGHT as authoritative and derives width =
+	// round(height*pref): the part scales horizontally to hold the ratio.
+	aspectHorizontal
+	// aspectVertical treats WIDTH as authoritative and derives height =
+	// round(width/pref): the part scales vertically to hold the ratio.
+	aspectVertical
+	// aspectBoth fits the largest rect of ratio pref that CONTAINS within the
+	// allotted rect (neither dimension may grow) — the classic square-knob case.
+	aspectBoth
+)
+
+// aspectSpec is a part's ratio constraint. pref is the target width:height for
+// the horizontal/vertical/both modes; min/max bound the accepted ratio for the
+// neither mode. The resolved rect is positioned inside its allotted box by the
+// part's (or state's) align, so align doubles as the aspect anchor — align
+// [0,0.5] pins a contained square to the left edge (a switch knob's Off seat),
+// [1,0.5] to the right (its On seat).
+type aspectSpec struct {
+	mode           aspectMode
+	min, max, pref float64
 }
 
 // State is one part description: the visual it paints while the part is in this

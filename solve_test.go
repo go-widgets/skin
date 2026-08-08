@@ -59,9 +59,6 @@ func TestSolveCheckGeometry(t *testing.T) {
 }
 
 func TestSolveCardGeometry(t *testing.T) {
-	if toolkit.GlyphHeight() != 7 {
-		t.Skipf("card authored for glyphH=7, got %d", toolkit.GlyphHeight())
-	}
 	o := loadCollection(t, "card.skin.json", "card")
 	o.SetBounds(toolkit.Rect{X: 0, Y: 0, W: 160, H: 100})
 

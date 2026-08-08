@@ -49,6 +49,14 @@ func TestLoadMinimal(t *testing.T) {
 		`{"collections":{"c":{"parts":[{"name":"p","type":"text","text":"hi","states":{"default":{"ink":"@on_surface"}}}]}}}`,
 		// border_width (positive) is set, not rejected.
 		`{"collections":{"c":{"parts":[{"name":"p","type":"rect","states":{"default":{"color":"@surface","border":"@border","border_width":2}}}]}}}`,
+		// aspect_mode "none" with an aspect block is accepted (block ignored).
+		`{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"none","aspect":{"pref":1},"states":{"default":{"color":"@surface"}}}]}}}`,
+		// an aspect block with no explicit aspect_mode defaults to "both".
+		`{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect":{"pref":1.5},"states":{"default":{"color":"@surface"}}}]}}}`,
+		// neither with a valid min<=max range.
+		`{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"neither","aspect":{"min":1,"max":2},"states":{"default":{"color":"@surface"}}}]}}}`,
+		// offset_em is a recognised endpoint field (font-relative inset).
+		`{"collections":{"c":{"parts":[{"name":"p","type":"rect","rel1":{"offset_em":[0,1]},"states":{"default":{"color":"@surface"}}}]}}}`,
 	} {
 		if _, err := skin.Load([]byte(src)); err != nil {
 			t.Fatalf("valid doc rejected: %v\nsrc=%s", err, src)
@@ -104,6 +112,14 @@ func TestLoadErrors(t *testing.T) {
 		{"program target unknown", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","states":{"default":{}}}],"programs":[{"on":"s","target":["ghost"],"to":"default"}]}}}`, "not a part"},
 		{"program target no state", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","states":{"default":{}}}],"programs":[{"on":"s","target":["p"],"to":"hover"}]}}}`, "has no state"},
 		{"program does nothing", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","states":{"default":{}}}],"programs":[{"on":"s"}]}}}`, "does nothing"},
+		{"unknown aspect_mode", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"boing","states":{"default":{}}}]}}}`, "unknown aspect_mode"},
+		{"aspect mode no block", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"both","states":{"default":{}}}]}}}`, "needs an `aspect` block"},
+		{"neither missing max", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"neither","aspect":{"min":1},"states":{"default":{}}}]}}}`, "needs both min and max"},
+		{"neither missing min", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"neither","aspect":{"max":2},"states":{"default":{}}}]}}}`, "needs both min and max"},
+		{"neither non-positive", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"neither","aspect":{"min":0,"max":2},"states":{"default":{}}}]}}}`, "ratios must be positive"},
+		{"neither min gt max", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"neither","aspect":{"min":3,"max":2},"states":{"default":{}}}]}}}`, "cannot exceed"},
+		{"pref missing", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"both","aspect":{"min":1,"max":2},"states":{"default":{}}}]}}}`, "needs a `pref` ratio"},
+		{"pref non-positive", `{"collections":{"c":{"parts":[{"name":"p","type":"rect","aspect_mode":"horizontal","aspect":{"pref":0},"states":{"default":{}}}]}}}`, "ratios must be positive"},
 	}
 	for _, c := range cases {
 		t.Run(c.name, func(t *testing.T) {

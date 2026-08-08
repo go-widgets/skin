@@ -34,21 +34,30 @@ type rawSize struct {
 }
 
 type rawPart struct {
-	Name     string               `json:"name"`
-	Type     string               `json:"type"`
-	Rel1     *rawRel              `json:"rel1"`
-	Rel2     *rawRel              `json:"rel2"`
-	Align    *[2]float64          `json:"align"`
-	TextFrom string               `json:"text_from"`
-	Text     string               `json:"text"`
-	Image    string               `json:"image"`
-	States   map[string]*rawState `json:"states"`
+	Name       string               `json:"name"`
+	Type       string               `json:"type"`
+	Rel1       *rawRel              `json:"rel1"`
+	Rel2       *rawRel              `json:"rel2"`
+	Align      *[2]float64          `json:"align"`
+	Aspect     *rawAspect           `json:"aspect"`
+	AspectMode string               `json:"aspect_mode"`
+	TextFrom   string               `json:"text_from"`
+	Text       string               `json:"text"`
+	Image      string               `json:"image"`
+	States     map[string]*rawState `json:"states"`
 }
 
 type rawRel struct {
 	To       string      `json:"to"`
 	Relative *[2]float64 `json:"relative"`
 	Offset   *[2]int     `json:"offset"`
+	OffsetEm *[2]float64 `json:"offset_em"`
+}
+
+type rawAspect struct {
+	Min  *float64 `json:"min"`
+	Max  *float64 `json:"max"`
+	Pref *float64 `json:"pref"`
 }
 
 type rawState struct {
@@ -185,6 +194,10 @@ func validatePart(coll string, idx int, rp *rawPart, seen map[string]int) (*Part
 	} else {
 		p.align = [2]float64{0, 0}
 	}
+	var err error
+	if p.aspect, err = convAspect(where, rp.AspectMode, rp.Aspect); err != nil {
+		return nil, err
+	}
 	r1, err := convRel(where+": rel1", rp.Rel1, false, seen)
 	if err != nil {
 		return nil, err
@@ -310,12 +323,72 @@ func convRel(where string, rr *rawRel, isRel2 bool, seen map[string]int) (relSpe
 	if rr.Offset != nil {
 		rs.offx, rs.offy = rr.Offset[0], rr.Offset[1]
 	}
+	if rr.OffsetEm != nil {
+		rs.emx, rs.emy = rr.OffsetEm[0], rr.OffsetEm[1]
+	}
 	if rs.to != "" {
 		if _, ok := seen[rs.to]; !ok {
 			return relSpec{}, fmt.Errorf("%s: `to` references %q which is not an earlier part in this collection", where, rs.to)
 		}
 	}
 	return rs, nil
+}
+
+// aspectModes maps the document's aspect_mode strings to aspectMode.
+var aspectModes = map[string]aspectMode{
+	"none":       aspectNone,
+	"neither":    aspectNeither,
+	"horizontal": aspectHorizontal,
+	"vertical":   aspectVertical,
+	"both":       aspectBoth,
+}
+
+// convAspect converts a part's aspect_mode + aspect block into an aspectSpec:
+//   - both absent                 → aspectNone (unconstrained).
+//   - aspect_mode "none"          → aspectNone (any aspect block is ignored).
+//   - an aspect block, mode unset → defaults to "both".
+//   - horizontal/vertical/both    → need a positive `pref` ratio.
+//   - neither                     → needs positive `min`+`max` with min <= max.
+func convAspect(where, modeStr string, ra *rawAspect) (aspectSpec, error) {
+	if modeStr == "" && ra == nil {
+		return aspectSpec{}, nil
+	}
+	mode := aspectBoth // an aspect block with no explicit mode contains a square/ratio
+	if modeStr != "" {
+		m, ok := aspectModes[modeStr]
+		if !ok {
+			return aspectSpec{}, fmt.Errorf("%s: unknown aspect_mode %q (none|neither|horizontal|vertical|both)", where, modeStr)
+		}
+		mode = m
+	}
+	if mode == aspectNone {
+		return aspectSpec{}, nil
+	}
+	if ra == nil {
+		return aspectSpec{}, fmt.Errorf("%s: aspect_mode %q needs an `aspect` block", where, modeStr)
+	}
+	as := aspectSpec{mode: mode}
+	if mode == aspectNeither {
+		if ra.Min == nil || ra.Max == nil {
+			return aspectSpec{}, fmt.Errorf("%s: aspect_mode \"neither\" needs both min and max ratios", where)
+		}
+		if *ra.Min <= 0 || *ra.Max <= 0 {
+			return aspectSpec{}, fmt.Errorf("%s: aspect ratios must be positive", where)
+		}
+		if *ra.Min > *ra.Max {
+			return aspectSpec{}, fmt.Errorf("%s: aspect `min` cannot exceed `max`", where)
+		}
+		as.min, as.max = *ra.Min, *ra.Max
+		return as, nil
+	}
+	if ra.Pref == nil {
+		return aspectSpec{}, fmt.Errorf("%s: aspect needs a `pref` ratio", where)
+	}
+	if *ra.Pref <= 0 {
+		return aspectSpec{}, fmt.Errorf("%s: aspect ratios must be positive", where)
+	}
+	as.pref = *ra.Pref
+	return as, nil
 }
 
 // validateProgram validates one program against the collection's parts.
