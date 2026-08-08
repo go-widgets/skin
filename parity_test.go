@@ -5,6 +5,7 @@
 package skin_test
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -145,13 +146,92 @@ func TestParityChip(t *testing.T) {
 }
 
 func TestParityCard(t *testing.T) {
-	if toolkit.GlyphHeight() != 7 {
-		t.Skipf("card.skin.json is authored for the default 5x7 font (glyphH=7); active font glyphH=%d", toolkit.GlyphHeight())
-	}
 	th := toolkit.DefaultLight()
 	bounds := toolkit.Rect{X: 10, Y: 10, W: 160, H: 100}
 	want := &toolkit.Card{Title: "Hello", Body: "world", Footer: "foot"}
 	got := loadCollection(t, "card.skin.json", "card")
 	got.Bind(mapSource{"$.title": "Hello", "$.body": "world", "$.footer": "foot"})
 	assertParity(t, "card/default", want, got, bounds, th)
+}
+
+// TestParitySwitchScales re-runs the switch parity gate at THREE non-default
+// sizes (plus odd dimensions): the aspect-driven knob must stay byte-identical
+// to the hand-coded toolkit.Switch as the track grows.
+func TestParitySwitchScales(t *testing.T) {
+	th := toolkit.DefaultLight()
+	sizes := []toolkit.Rect{
+		{X: 10, Y: 10, W: 44, H: 24},
+		{X: 10, Y: 10, W: 60, H: 30},
+		{X: 10, Y: 10, W: 80, H: 36},
+		{X: 10, Y: 10, W: 45, H: 25},
+	}
+	for _, b := range sizes {
+		for _, st := range []string{"default", "on", "disabled"} {
+			want := &toolkit.Switch{}
+			switch st {
+			case "on":
+				want.On = true
+			case "disabled":
+				want.Disabled = true
+			}
+			got := loadCollection(t, "switch.skin.json", "switch")
+			got.SetState(st)
+			assertParity(t, fmt.Sprintf("switch/%s@%v", st, b), want, got, b, th)
+		}
+	}
+}
+
+// TestParityCardFonts re-runs the card parity gate at TWO glyph heights and TWO
+// sizes: the font-relative (offset_em) strips/body must stay byte-identical to
+// the hand-coded toolkit.Card whatever the active font's metrics are.
+func TestParityCardFonts(t *testing.T) {
+	th := toolkit.DefaultLight()
+	sizes := []toolkit.Rect{
+		{X: 10, Y: 10, W: 160, H: 100},
+		{X: 10, Y: 10, W: 220, H: 140},
+	}
+	for _, scale := range []int{1, 2} {
+		withGlyphHeight(t, 7*scale, func() {
+			for _, b := range sizes {
+				want := &toolkit.Card{Title: "Hello", Body: "world", Footer: "foot"}
+				got := loadCollection(t, "card.skin.json", "card")
+				got.Bind(mapSource{"$.title": "Hello", "$.body": "world", "$.footer": "foot"})
+				assertParity(t, fmt.Sprintf("card@%v/gh%d", b, 7*scale), want, got, b, th)
+			}
+		})
+	}
+}
+
+// TestParityCheckFonts re-runs the check parity gate at TWO glyph heights and
+// TWO sizes, across every state. The fixed 12px box + font-centred label must
+// stay byte-identical to the hand-coded toolkit.CheckButton.
+func TestParityCheckFonts(t *testing.T) {
+	th := toolkit.DefaultLight()
+	sizes := []toolkit.Rect{
+		{X: 10, Y: 10, W: 120, H: 20},
+		{X: 10, Y: 10, W: 140, H: 28},
+	}
+	cases := []struct {
+		state   string
+		checked bool
+		dis     bool
+	}{
+		{"default", false, false},
+		{"checked", true, false},
+		{"disabled", false, true},
+	}
+	for _, scale := range []int{1, 2} {
+		withGlyphHeight(t, 7*scale, func() {
+			for _, b := range sizes {
+				for _, c := range cases {
+					want := &toolkit.CheckButton{Label: "OK", Checked: c.checked}
+					want.Disabled = c.dis
+					got := loadCollection(t, "check.skin.json", "check")
+					got.Bind(mapSource{"$.label": "OK"})
+					got.SetState(c.state)
+					assertParity(t, fmt.Sprintf("check/%s@%v/gh%d", c.state, b, 7*scale), want, got, b, th)
+				}
+			}
+		})
+	}
 }

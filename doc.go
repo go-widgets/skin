@@ -33,6 +33,18 @@
 // don't own it); an HCL front-end, if ever added, would emit the same document
 // model and reuse the whole validator + runtime unchanged.
 //
+// # Size- and font-relative geometry
+//
+// Part geometry scales to ANY object size and font metrics. A rel1/rel2
+// endpoint is a FRACTIONAL position across its reference box (relative, 0..1)
+// plus a pixel offset and a FONT-RELATIVE offset (offset_em, in em =
+// glyph-height units resolved against the active [github.com/go-widgets/toolkit]
+// font). A part may additionally hold a width:height ratio inside its allotted
+// rect via aspect/aspect_mode (the Edje aspect idea — none/neither/horizontal/
+// vertical/both), seated by the part's align. So the shipped switch/check/card
+// collections render correctly at arbitrary bounds and under any SetFont rather
+// than assuming the default 5x7 face.
+//
 // # Runtime
 //
 // [Load] parses+validates every collection into a [Theme]. [Theme.New]

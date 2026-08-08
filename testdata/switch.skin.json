@@ -51,6 +51,14 @@
         },
         {
           "name": "knob",
+          "align": [
+            0,
+            0.5
+          ],
+          "aspect": {
+            "pref": 1
+          },
+          "aspect_mode": "both",
           "rel1": {
             "offset": [
               2,
@@ -64,12 +72,12 @@
           },
           "rel2": {
             "offset": [
-              22,
-              22
+              -2,
+              -2
             ],
             "relative": [
-              0,
-              0
+              1,
+              1
             ],
             "to": ""
           },
@@ -85,31 +93,13 @@
               "radius": "pill"
             },
             "on": {
+              "align": [
+                1,
+                0.5
+              ],
               "border": "@border",
               "color": "@surface",
-              "radius": "pill",
-              "rel1": {
-                "offset": [
-                  22,
-                  2
-                ],
-                "relative": [
-                  0,
-                  0
-                ],
-                "to": ""
-              },
-              "rel2": {
-                "offset": [
-                  42,
-                  22
-                ],
-                "relative": [
-                  0,
-                  0
-                ],
-                "to": ""
-              }
+              "radius": "pill"
             }
           },
           "type": "rect"
