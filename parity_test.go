@@ -103,7 +103,7 @@ func TestParitySwitch(t *testing.T) {
 		want := &toolkit.Switch{}
 		switch st {
 		case "on":
-			want.On = true
+			want.On().Set(true)
 		case "disabled":
 			want.Disabled = true
 		}
@@ -127,7 +127,8 @@ func TestParityCheck(t *testing.T) {
 		{"disabled", "disabled", false, true},
 	}
 	for _, c := range cases {
-		want := &toolkit.CheckButton{Label: "OK", Checked: c.checked}
+		want := &toolkit.CheckButton{Label: "OK"}
+		want.Checked().Set(c.checked)
 		want.Disabled = c.dis
 		got := loadCollection(t, "check.skin.json", "check")
 		got.Bind(mapSource{"$.label": "OK"})
@@ -170,7 +171,7 @@ func TestParitySwitchScales(t *testing.T) {
 			want := &toolkit.Switch{}
 			switch st {
 			case "on":
-				want.On = true
+				want.On().Set(true)
 			case "disabled":
 				want.Disabled = true
 			}
@@ -224,7 +225,8 @@ func TestParityCheckFonts(t *testing.T) {
 		withGlyphHeight(t, 7*scale, func() {
 			for _, b := range sizes {
 				for _, c := range cases {
-					want := &toolkit.CheckButton{Label: "OK", Checked: c.checked}
+					want := &toolkit.CheckButton{Label: "OK"}
+					want.Checked().Set(c.checked)
 					want.Disabled = c.dis
 					got := loadCollection(t, "check.skin.json", "check")
 					got.Bind(mapSource{"$.label": "OK"})
