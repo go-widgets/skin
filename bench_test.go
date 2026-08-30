@@ -57,7 +57,9 @@ func BenchmarkDrawSkinButton(b *testing.B) {
 
 func BenchmarkDrawToolkitButton(b *testing.B) {
 	th := toolkit.DefaultLight()
-	w := &toolkit.Button{Label: "OK", PressFeedback: true}
+	// Label is an Observable accessor now, and NewButton already sets
+	// PressFeedback, so the literal has no equivalent form.
+	w := toolkit.NewButton("OK", nil)
 	w.SetBounds(toolkit.Rect{X: 10, Y: 10, W: benchW, H: benchH})
 	p, done := newBenchCanvas()
 	defer done()
@@ -76,7 +78,7 @@ func TestDrawCostRatio(t *testing.T) {
 	}
 	th := toolkit.DefaultLight()
 	skinBtn := benchSkinButton(t)
-	tkBtn := &toolkit.Button{Label: "OK", PressFeedback: true}
+	tkBtn := toolkit.NewButton("OK", nil)
 	tkBtn.SetBounds(toolkit.Rect{X: 10, Y: 10, W: benchW, H: benchH})
 	p, done := newBenchCanvas()
 	defer done()
