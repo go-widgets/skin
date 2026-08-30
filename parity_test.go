@@ -80,14 +80,14 @@ func TestParityButton(t *testing.T) {
 	th := toolkit.DefaultLight()
 	bounds := toolkit.Rect{X: 10, Y: 10, W: 96, H: 28}
 	for _, st := range []string{"default", "hover", "pressed", "disabled"} {
-		want := &toolkit.Button{Label: "OK", PressFeedback: true}
+		want := toolkit.NewButton("OK", nil)
 		switch st {
 		case "hover":
 			want.SetHovered(true)
 		case "pressed":
 			want.SetPressed(true)
 		case "disabled":
-			want.Disabled = true
+			want.Disabled().Set(true)
 		}
 		got := loadCollection(t, "button.skin.json", "button")
 		got.Bind(mapSource{"$.label": "OK"})
@@ -105,7 +105,7 @@ func TestParitySwitch(t *testing.T) {
 		case "on":
 			want.On().Set(true)
 		case "disabled":
-			want.Disabled = true
+			want.Disabled().Set(true)
 		}
 		got := loadCollection(t, "switch.skin.json", "switch")
 		got.SetState(st)
@@ -129,7 +129,7 @@ func TestParityCheck(t *testing.T) {
 	for _, c := range cases {
 		want := &toolkit.CheckButton{Label: "OK"}
 		want.Checked().Set(c.checked)
-		want.Disabled = c.dis
+		want.Disabled().Set(c.dis)
 		got := loadCollection(t, "check.skin.json", "check")
 		got.Bind(mapSource{"$.label": "OK"})
 		got.SetState(c.state)
@@ -173,7 +173,7 @@ func TestParitySwitchScales(t *testing.T) {
 			case "on":
 				want.On().Set(true)
 			case "disabled":
-				want.Disabled = true
+				want.Disabled().Set(true)
 			}
 			got := loadCollection(t, "switch.skin.json", "switch")
 			got.SetState(st)
@@ -227,7 +227,7 @@ func TestParityCheckFonts(t *testing.T) {
 				for _, c := range cases {
 					want := &toolkit.CheckButton{Label: "OK"}
 					want.Checked().Set(c.checked)
-					want.Disabled = c.dis
+					want.Disabled().Set(c.dis)
 					got := loadCollection(t, "check.skin.json", "check")
 					got.Bind(mapSource{"$.label": "OK"})
 					got.SetState(c.state)
